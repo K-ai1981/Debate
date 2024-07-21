@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Debate Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f8ff;
+        }
+        h1 {
+            color: #4a4a4a;
+            text-align: center;
+            border-bottom: 2px solid #4a4a4a;
+            padding-bottom: 10px;
+        }
+        #statementInput {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        #generateButton {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #generateButton:hover {
+            background-color: #45a049;
+        }
+        .statement {
+            background-color: #e6f2ff;
+            border-left: 5px solid #3399ff;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .pro, .con {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .pro {
+            background-color: #e6ffe6;
+            border-left: 5px solid #33cc33;
+        }
+        .con {
+            background-color: #ffe6e6;
+            border-left: 5px solid #ff3333;
+        }
+        h2 {
+            color: #4a4a4a;
+            margin-top: 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        #debateContent {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Debate Generator</h1>
+    
+    <input type="text" id="statementInput" placeholder="Enter your debate statement here...">
+    <button id="generateButton">Generate Debate</button>
+    
+    <div id="debateContent">
+        <div class="statement">
+            <p id="statementDisplay"></p>
+        </div>
+        
+        <div class="pro">
+            <h2>Pro Arguments</h2>
+            <ul id="proList"></ul>
+        </div>
+        
+        <div class="con">
+            <h2>Con Arguments</h2>
+            <ul id="conList"></ul>
+        </div>
+        
+        <p id="conclusion"></p>
+    </div>
+
+    <script>
+        const topics = {
+            "social media": {
+                pro: [
+                    "Facilitates global communication and connection",
+                    "Provides a platform for sharing ideas and information",
+                    "Enables grassroots organization for social causes",
+                    "Offers opportunities for businesses to reach customers",
+                    "Can be used as an educational tool"
+                ],
+                con: [
+                    "Can contribute to mental health issues and anxiety",
+                    "Spread of misinformation and fake news",
+                    "Privacy concerns and data breaches",
+                    "Potential for cyberbullying and online harassment",
+                    "May decrease face-to-face social interactions"
+                ]
+            },
+            "technology": {
+                pro: [
+                    "Increases efficiency and productivity",
+                    "Improves communication and connectivity",
+                    "Advances medical treatments and healthcare",
+                    "Provides access to information and education",
+                    "Drives innovation and economic growth"
+                ],
+                con: [
+                    "Can lead to job displacement",
+                    "Raises privacy and security concerns",
+                    "May contribute to social isolation",
+                    "Environmental impact of e-waste",
+                    "Potential for technology addiction"
+                ]
+            },
+            "default": {
+                pro: [
+                    "Could lead to positive societal changes",
+                    "May improve quality of life for some",
+                    "Potential for economic benefits",
+                    "Could foster innovation and progress",
+                    "Might address existing problems in society"
+                ],
+                con: [
+                    "Possible negative unintended consequences",
+                    "May exacerbate existing inequalities",
+                    "Could face implementation challenges",
+                    "Potential for misuse or abuse",
+                    "Might conflict with traditional values or practices"
+                ]
+            }
+        };
+
+        function generateDebate() {
+            const statement = document.getElementById('statementInput').value.toLowerCase();
+            const statementDisplay = document.getElementById('statementDisplay');
+            const proList = document.getElementById('proList');
+            const conList = document.getElementById('conList');
+            const conclusion = document.getElementById('conclusion');
+            const debateContent = document.getElementById('debateContent');
+
+            statementDisplay.textContent = `"${statement}"`;
+            proList.innerHTML = '';
+            conList.innerHTML = '';
+
+            let topic = 'default';
+            for (const key in topics) {
+                if (statement.includes(key)) {
+                    topic = key;
+                    break;
+                }
+            }
+
+            const { pro, con } = topics[topic];
+
+            pro.forEach(arg => {
+                const li = document.createElement('li');
+                li.textContent = arg;
+                proList.appendChild(li);
+            });
+
+            con.forEach(arg => {
+                const li = document.createElement('li');
+                li.textContent = arg;
+                conList.appendChild(li);
+            });
+
+            conclusion.textContent = `This debate highlights the complex nature of the statement "${statement}". While it offers potential benefits, it also presents significant challenges that need to be considered.`;
+
+            debateContent.style.display = 'block';
+        }
+
+        document.getElementById('generateButton').addEventListener('click', generateDebate);
+    </script>
+</body>
+</html>
